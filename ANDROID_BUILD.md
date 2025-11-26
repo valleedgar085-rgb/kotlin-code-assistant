@@ -139,6 +139,7 @@ The `-r` flag replaces an existing installation if present.
 - Ensure you have a stable internet connection for downloading dependencies
 - Check that your Android SDK is properly installed
 - Try: `./gradlew clean` then rebuild
+- If you encounter Kotlin/AGP version compatibility warnings, this is normal - the versions used are compatible
 
 ### Build Failed - SDK Not Found
 - Set `ANDROID_HOME` environment variable
