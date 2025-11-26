@@ -1,11 +1,11 @@
 package com.kotlinassistant.android
 
 import android.os.Bundle
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.textfield.TextInputEditText
 import android.widget.TextView
 import com.kotlinassistant.android.analyzer.CodeAnalyzer
 import com.kotlinassistant.android.models.CodeSnippet
@@ -16,7 +16,7 @@ import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
     
-    private lateinit var codeInput: TextInputEditText
+    private lateinit var codeInput: EditText
     private lateinit var analyzeButton: MaterialButton
     private lateinit var resultsText: TextView
     private val codeAnalyzer = CodeAnalyzer()
