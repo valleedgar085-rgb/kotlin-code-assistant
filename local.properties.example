@@ -1,0 +1,9 @@
+## This file must NOT be checked into Version Control Systems,
+# as it contains information specific to your local configuration.
+#
+# Location of the Android SDK. For Windows, use double backslashes:
+# Example (Linux/Mac): sdk.dir=/Users/username/Library/Android/sdk
+# Example (Windows): sdk.dir=C:\\Users\\username\\AppData\\Local\\Android\\sdk
+#
+# Uncomment and set the path to your Android SDK:
+# sdk.dir=/path/to/android/sdk
