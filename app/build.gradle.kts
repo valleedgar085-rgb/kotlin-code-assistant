@@ -35,10 +35,6 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    
-    buildFeatures {
-        viewBinding = true
-    }
 }
 
 dependencies {
@@ -53,12 +49,6 @@ dependencies {
     
     // Coroutines for Android
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-    
-    // HTTP client for AI API calls
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
-    
-    // JSON parsing
-    implementation("com.google.code.gson:gson:2.10.1")
     
     // Lifecycle components
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")

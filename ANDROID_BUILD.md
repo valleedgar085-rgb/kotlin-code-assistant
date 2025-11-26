@@ -196,9 +196,16 @@ Potential improvements for the Android app:
 - [ ] Save and load code snippets
 - [ ] Share analysis results
 - [ ] Dark mode support
-- [ ] AI-powered suggestions (requires API key configuration)
-- [ ] Multiple language support
-- [ ] Export analysis reports
+- [ ] AI-powered suggestions (would require adding OkHttp and Gson dependencies + API key configuration)
+- [ ] Multiple language support beyond Kotlin
+- [ ] Export analysis reports as PDF or text files
+- [ ] Code snippet templates library
+
+**Note**: The current implementation focuses on offline static analysis. AI features can be added by:
+1. Adding OkHttp and Gson dependencies to `app/build.gradle.kts`
+2. Implementing API key configuration UI
+3. Porting the AI service integration from the CLI module
+4. Adding appropriate ProGuard rules for network libraries
 
 ## Support
 
