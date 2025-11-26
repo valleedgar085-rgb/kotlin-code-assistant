@@ -40,15 +40,33 @@ cd kotlin-code-assistant
 
 ### Android App
 
-To build and install the Android APK, see [ANDROID_BUILD.md](ANDROID_BUILD.md) for detailed instructions.
+The Android app provides a mobile interface for code analysis on-the-go!
+
+**Features:**
+- Paste or type Kotlin code directly on your device
+- Instant static code analysis
+- View suggestions with severity indicators
+- Code metrics display
+- Works offline (no internet required for static analysis)
+
+**Building the APK:**
+
+See [ANDROID_BUILD.md](ANDROID_BUILD.md) for detailed build instructions.
 
 **Quick start:**
-1. Install Android Studio
-2. Open the project
+1. Enable Android module: `./scripts/enable-android.sh`
+2. Build APK: `./gradlew :app:assembleDebug`
+3. Install `app/build/outputs/apk/debug/app-debug.apk` on your device
+
+Or use Android Studio:
+1. Open the project in Android Studio
+2. Enable the Android module in `settings.gradle.kts`
 3. Build > Build Bundle(s) / APK(s) > Build APK(s)
 4. Install the generated APK on your Android device
 
 ## Usage
+
+### Command Line Tool
 
 The Kotlin Code Assistant provides several commands:
 

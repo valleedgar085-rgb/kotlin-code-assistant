@@ -2,6 +2,34 @@
 
 This document explains how to build the Android APK for Kotlin Code Assistant.
 
+## Important Note
+
+The Android app module is commented out by default in `settings.gradle.kts` to allow the CLI tool to build without requiring Android SDK. Before building the Android app, you need to enable the Android module.
+
+### Quick Enable (Linux/Mac)
+
+```bash
+./scripts/enable-android.sh
+```
+
+### Manual Enable
+
+Edit `settings.gradle.kts` and uncomment the Android app module:
+```kotlin
+// Change this line:
+// include(":app")
+
+// To this:
+include(":app")
+```
+
+### Disable Android Module (Optional)
+
+To go back to CLI-only builds without Android SDK:
+```bash
+./scripts/disable-android.sh
+```
+
 ## Prerequisites
 
 1. **Android Studio** (Arctic Fox or later) or Android SDK command-line tools
