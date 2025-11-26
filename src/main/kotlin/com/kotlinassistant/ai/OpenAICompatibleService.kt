@@ -20,13 +20,20 @@ class OpenAICompatibleService(
     private val model: String = System.getenv("AI_MODEL") ?: "gpt-4"
 ) : AIService {
     
-    private val client = OkHttpClient.Builder()
-        .connectTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(60, TimeUnit.SECONDS)
-        .build()
-    
-    private val gson = Gson()
-    private val jsonMediaType = "application/json; charset=utf-8".toMediaType()
+    companion object {
+        // Shared OkHttpClient for connection pooling and better performance
+        private val sharedClient by lazy {
+            OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .build()
+        }
+        
+        // Shared Gson instance for JSON serialization/deserialization
+        private val sharedGson by lazy { Gson() }
+        
+        private val jsonMediaType by lazy { "application/json; charset=utf-8".toMediaType() }
+    }
     
     override suspend fun complete(request: AIRequest): Result<AIResponse> {
         if (!isAvailable()) {
@@ -42,7 +49,7 @@ class OpenAICompatibleService(
                 .post(requestBody.toRequestBody(jsonMediaType))
                 .build()
             
-            val response = client.newCall(httpRequest).execute()
+            val response = sharedClient.newCall(httpRequest).execute()
             
             if (!response.isSuccessful) {
                 return Result.failure(Exception("AI API request failed: ${response.code} - ${response.message}"))
@@ -76,11 +83,11 @@ class OpenAICompatibleService(
             "temperature" to 0.7
         )
         
-        return gson.toJson(requestMap)
+        return sharedGson.toJson(requestMap)
     }
     
     private fun parseResponse(responseBody: String): AIResponse {
-        val jsonResponse = gson.fromJson(responseBody, JsonObject::class.java)
+        val jsonResponse = sharedGson.fromJson(responseBody, JsonObject::class.java)
         val choices = jsonResponse.getAsJsonArray("choices")
         val firstChoice = choices[0].asJsonObject
         val message = firstChoice.getAsJsonObject("message")
