@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kotlin Code Assistant</string>
+    <string name="analyze_button">Analyze Code</string>
+    <string name="paste_code">Paste your Kotlin code here…</string>
+    <string name="analysis_results">Analysis Results</string>
+    <string name="no_issues">✓ No issues found!</string>
+    <string name="analyzing">Analyzing code…</string>
+    <string name="code_metrics">Code Metrics</string>
+    <string name="lines">Lines: %d</string>
+    <string name="non_empty_lines">Non-empty lines: %d</string>
+    <string name="functions">Functions: %d</string>
+    <string name="classes">Classes: %d</string>
+    <string name="suggestion_format">%s %d. %s\n   %s\n</string>
+    <string name="found_suggestions">Found %d suggestion(s):\n</string>
+    <string name="error_empty_code">Please enter some code to analyze</string>
+</resources>

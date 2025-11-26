@@ -2,6 +2,8 @@
 
 An AI-powered code assistant that helps developers write better Kotlin code (and other languages too!). It combines static code analysis with AI-powered suggestions to provide comprehensive code insights, improvements, and generation capabilities.
 
+**Available as both a command-line tool and an Android app!**
+
 ## Features
 
 - 🔍 **Static Code Analysis**: Detect common issues and anti-patterns in Kotlin code
@@ -11,15 +13,18 @@ An AI-powered code assistant that helps developers write better Kotlin code (and
 - 🚀 **Code Generation**: Generate code from natural language descriptions
 - 📊 **Code Metrics**: Get complexity metrics and statistics about your code
 - 🌐 **Multi-Language Support**: While focused on Kotlin, supports other programming languages
+- 📱 **Android App**: Use the code assistant directly on your Android device
 
 ## Installation
 
-### Prerequisites
+### Command Line Tool
+
+#### Prerequisites
 
 - Java 11 or higher
 - Gradle 8.5 or higher (wrapper included)
 
-### Build from Source
+#### Build from Source
 
 ```bash
 # Clone the repository
@@ -33,7 +38,35 @@ cd kotlin-code-assistant
 ./gradlew run --args="--help"
 ```
 
+### Android App
+
+The Android app provides a mobile interface for code analysis on-the-go!
+
+**Features:**
+- Paste or type Kotlin code directly on your device
+- Instant static code analysis
+- View suggestions with severity indicators
+- Code metrics display
+- Works offline (no internet required for static analysis)
+
+**Building the APK:**
+
+See [ANDROID_BUILD.md](ANDROID_BUILD.md) for detailed build instructions.
+
+**Quick start:**
+1. Enable Android module: `./scripts/enable-android.sh`
+2. Build APK: `./gradlew :app:assembleDebug`
+3. Install `app/build/outputs/apk/debug/app-debug.apk` on your device
+
+Or use Android Studio:
+1. Open the project in Android Studio
+2. Enable the Android module in `settings.gradle.kts`
+3. Build > Build Bundle(s) / APK(s) > Build APK(s)
+4. Install the generated APK on your Android device
+
 ## Usage
+
+### Command Line Tool
 
 The Kotlin Code Assistant provides several commands:
 
@@ -251,6 +284,7 @@ This project is open source and available under the MIT License.
 
 ## Roadmap
 
+- [x] Android app for mobile code analysis
 - [ ] Add support for more programming languages
 - [ ] Implement caching for AI responses
 - [ ] Add IDE plugins (IntelliJ IDEA, VS Code)
@@ -259,6 +293,7 @@ This project is open source and available under the MIT License.
 - [ ] Custom rule configuration
 - [ ] Integration with Git hooks
 - [ ] Web UI for code analysis
+- [ ] AI-powered suggestions in Android app
 
 ## Support
 
