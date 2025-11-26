@@ -162,11 +162,15 @@ class SuggestionEngine(
                 val lines = block.trim().lines()
                 var title = ""
                 var severity = SuggestionSeverity.INFO
-                var description = ""
+                val descriptionBuilder = StringBuilder()
+                var parsingDescription = false
                 
                 for (line in lines) {
                     when {
-                        line.startsWith("TITLE:") -> title = line.substringAfter("TITLE:").trim()
+                        line.startsWith("TITLE:") -> {
+                            title = line.substringAfter("TITLE:").trim()
+                            parsingDescription = false
+                        }
                         line.startsWith("SEVERITY:") -> {
                             val severityStr = line.substringAfter("SEVERITY:").trim()
                             severity = when (severityStr.uppercase()) {
@@ -175,14 +179,20 @@ class SuggestionEngine(
                                 "IMPROVEMENT" -> SuggestionSeverity.IMPROVEMENT
                                 else -> SuggestionSeverity.INFO
                             }
+                            parsingDescription = false
                         }
-                        line.startsWith("DESCRIPTION:") -> description = line.substringAfter("DESCRIPTION:").trim()
-                        else -> if (description.isNotEmpty()) description += "\n$line"
+                        line.startsWith("DESCRIPTION:") -> {
+                            descriptionBuilder.append(line.substringAfter("DESCRIPTION:").trim())
+                            parsingDescription = true
+                        }
+                        parsingDescription && line.isNotBlank() -> {
+                            descriptionBuilder.append('\n').append(line)
+                        }
                     }
                 }
                 
                 if (title.isNotEmpty()) {
-                    suggestions.add(CodeSuggestion(title, description.trim(), null, severity))
+                    suggestions.add(CodeSuggestion(title, descriptionBuilder.toString().trim(), null, severity))
                 }
             } catch (e: Exception) {
                 // Skip malformed suggestions

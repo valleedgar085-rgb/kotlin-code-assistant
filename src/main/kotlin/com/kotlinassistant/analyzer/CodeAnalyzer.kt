@@ -27,8 +27,17 @@ class CodeAnalyzer {
         val suggestions = mutableListOf<CodeSuggestion>()
         val code = snippet.code
         
+        // Cache commonly used checks to avoid multiple passes
+        val hasNullAssertion = code.contains("!!")
+        val hasVar = code.contains("var ")
+        val hasVal = code.contains("val ")
+        val hasExplicitNullCheck = code.contains("== null") || code.contains("!= null")
+        val hasThreadSleep = code.contains("Thread.sleep")
+        val hasFun = code.contains("fun ")
+        val hasKDoc = code.contains("/**")
+        
         // Check for common Kotlin best practices
-        if (code.contains("!!")) {
+        if (hasNullAssertion) {
             suggestions.add(
                 CodeSuggestion(
                     title = "Avoid !! operator",
@@ -38,7 +47,7 @@ class CodeAnalyzer {
             )
         }
         
-        if (code.contains("var ") && !code.contains("val ")) {
+        if (hasVar && !hasVal) {
             suggestions.add(
                 CodeSuggestion(
                     title = "Prefer val over var",
@@ -48,7 +57,7 @@ class CodeAnalyzer {
             )
         }
         
-        if (code.contains("== null") || code.contains("!= null")) {
+        if (hasExplicitNullCheck) {
             suggestions.add(
                 CodeSuggestion(
                     title = "Use safe calls",
@@ -58,7 +67,7 @@ class CodeAnalyzer {
             )
         }
         
-        if (code.contains("Thread.sleep")) {
+        if (hasThreadSleep) {
             suggestions.add(
                 CodeSuggestion(
                     title = "Use coroutines for delays",
@@ -69,10 +78,14 @@ class CodeAnalyzer {
         }
         
         // Check for missing documentation on public functions
-        if (code.contains("fun ") && !code.contains("/**")) {
-            val hasPotentialPublicFun = code.lines().any { 
-                it.trim().startsWith("fun ") && !it.trim().startsWith("private fun")
-            }
+        // Only parse lines if we have functions but no KDoc
+        if (hasFun && !hasKDoc) {
+            // Single pass through lines to check for public functions
+            val hasPotentialPublicFun = code.lineSequence()
+                .any { line ->
+                    val trimmed = line.trim()
+                    trimmed.startsWith("fun ") && !trimmed.startsWith("private fun")
+                }
             if (hasPotentialPublicFun) {
                 suggestions.add(
                     CodeSuggestion(
@@ -89,10 +102,10 @@ class CodeAnalyzer {
     
     private fun analyzeGeneric(snippet: CodeSnippet): List<CodeSuggestion> {
         val suggestions = mutableListOf<CodeSuggestion>()
-        val code = snippet.code
         
-        // Generic code quality checks
-        if (code.lines().any { it.length > 120 }) {
+        // Generic code quality checks - use sequence for better performance
+        val hasLongLines = snippet.code.lineSequence().any { it.length > 120 }
+        if (hasLongLines) {
             suggestions.add(
                 CodeSuggestion(
                     title = "Long lines detected",
@@ -110,9 +123,11 @@ class CodeAnalyzer {
      */
     fun getComplexityMetrics(snippet: CodeSnippet): Map<String, Int> {
         val code = snippet.code
+        val lines = code.lines()
+        
         return mapOf(
-            "lines" to code.lines().size,
-            "nonEmptyLines" to code.lines().count { it.trim().isNotEmpty() },
+            "lines" to lines.size,
+            "nonEmptyLines" to lines.count { it.trim().isNotEmpty() },
             "functions" to code.split("fun ").size - 1,
             "classes" to code.split("class ").size - 1
         )
