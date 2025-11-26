@@ -187,7 +187,10 @@ class SuggestionEngine(
                         }
                         parsingDescription -> {
                             // Preserve all lines in description, including blank lines for formatting
-                            descriptionBuilder.append('\n').append(line)
+                            if (descriptionBuilder.isNotEmpty()) {
+                                descriptionBuilder.append('\n')
+                            }
+                            descriptionBuilder.append(line)
                         }
                     }
                 }

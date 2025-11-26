@@ -127,7 +127,7 @@ class CodeAnalyzer {
         
         return mapOf(
             "lines" to lines.size,
-            "nonEmptyLines" to lines.count { it.trim().isNotEmpty() },
+            "nonEmptyLines" to lines.count { it.isNotBlank() },
             "functions" to code.split("fun ").size - 1,
             "classes" to code.split("class ").size - 1
         )
