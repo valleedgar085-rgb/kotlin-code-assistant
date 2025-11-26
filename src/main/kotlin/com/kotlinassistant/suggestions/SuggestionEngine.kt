@@ -185,7 +185,8 @@ class SuggestionEngine(
                             descriptionBuilder.append(line.substringAfter("DESCRIPTION:").trim())
                             parsingDescription = true
                         }
-                        parsingDescription && line.isNotBlank() -> {
+                        parsingDescription -> {
+                            // Preserve all lines in description, including blank lines for formatting
                             descriptionBuilder.append('\n').append(line)
                         }
                     }

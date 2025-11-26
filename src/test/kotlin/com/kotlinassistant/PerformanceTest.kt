@@ -1,5 +1,6 @@
-package com.kotlinassistant.analyzer
+package com.kotlinassistant
 
+import com.kotlinassistant.analyzer.CodeAnalyzer
 import com.kotlinassistant.models.CodeSnippet
 import kotlin.system.measureTimeMillis
 import kotlin.test.Test
