@@ -2,6 +2,20 @@
 
 This document explains how to build the Android APK for Kotlin Code Assistant.
 
+## Quick Start
+
+If you have Android Studio installed with Android SDK:
+
+```bash
+# 1. Enable Android module
+./scripts/enable-android.sh
+
+# 2. Build the debug APK
+./gradlew :app:assembleDebug
+
+# 3. Find APK at: app/build/outputs/apk/debug/app-debug.apk
+```
+
 ## Important Note
 
 The Android app module is commented out by default in `settings.gradle.kts` to allow the CLI tool to build without requiring Android SDK. Before building the Android app, you need to enable the Android module.
@@ -32,12 +46,21 @@ To go back to CLI-only builds without Android SDK:
 
 ## Prerequisites
 
-1. **Android Studio** (Arctic Fox or later) or Android SDK command-line tools
-2. **Java JDK 11** or higher
+1. **Android Studio** (Hedgehog 2023.1.1 or later recommended) or Android SDK command-line tools
+2. **Java JDK 11** or higher (JDK 17 recommended)
 3. **Android SDK** with the following components:
    - Android SDK Platform 34
    - Android SDK Build-Tools 34.0.0 or higher
    - Android SDK Command-line Tools
+
+### Version Compatibility Notes
+
+The project uses the following compatible versions:
+- **Gradle**: 9.2.0
+- **Android Gradle Plugin (AGP)**: 8.5.2
+- **Kotlin**: 2.0.20
+
+These versions are managed in `settings.gradle.kts` for consistency. If you encounter version compatibility issues, ensure your Android Studio is updated to the latest stable version.
 
 ## Option 1: Building with Android Studio (Recommended)
 
@@ -141,6 +164,12 @@ The `-r` flag replaces an existing installation if present.
 - Try: `./gradlew clean` then rebuild
 - If you encounter Kotlin/AGP version compatibility warnings, this is normal - the versions used are compatible
 
+### Plugin Resolution Failed
+If you see an error like "Plugin [id: 'com.android.application'] was not found":
+- Ensure you have internet access to download dependencies from Google's Maven repository
+- Verify that `settings.gradle.kts` has `google()` in the `pluginManagement` repositories
+- Try running `./gradlew --refresh-dependencies :app:assembleDebug`
+
 ### Build Failed - SDK Not Found
 - Set `ANDROID_HOME` environment variable
 - Or create `local.properties` file in project root:
@@ -188,6 +217,40 @@ The Android app includes:
 - ✅ Display of code suggestions with severity icons
 - ✅ Code metrics (lines, functions, classes)
 - ✅ Offline static analysis (no internet required)
+
+## App Usage Guide
+
+### Analyzing Code
+
+1. **Launch the App**: Tap the "Kotlin Code Assistant" icon on your device
+2. **Enter Code**: Paste or type your Kotlin code in the top text area
+3. **Analyze**: Tap the "Analyze Code" button
+4. **Review Results**: View suggestions and metrics in the results area below
+
+### Understanding Results
+
+The app displays analysis results with the following severity icons:
+- ❌ **Error**: Critical issues that should be fixed immediately
+- ⚠️ **Warning**: Potential problems that may cause issues
+- ℹ️ **Info**: Suggestions for improving code quality
+- 💡 **Improvement**: Optional enhancements for better code
+
+### Code Metrics
+
+After analysis, the app shows:
+- **Lines**: Total number of lines in the code
+- **Non-empty lines**: Lines containing code (excluding blank lines)
+- **Functions**: Number of function declarations found
+- **Classes**: Number of class declarations found
+
+### Best Practices Checks
+
+The analyzer checks for common Kotlin best practices:
+- Avoiding the `!!` (non-null assertion) operator
+- Preferring `val` over `var` for immutability
+- Using safe calls (`?.`) instead of explicit null checks
+- Using coroutines `delay()` instead of `Thread.sleep()`
+- Adding KDoc documentation for public functions
 
 ## Future Enhancements
 
